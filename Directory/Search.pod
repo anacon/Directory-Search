@@ -1,5 +1,5 @@
 =head1 NAME
- 
+
 Directory::Search - an alternative to File::Find
 
 =head1 SYNOPSIS
