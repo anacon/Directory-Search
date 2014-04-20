@@ -1,6 +1,6 @@
 
 
- 
+
 module to use rules for search
 	sep dir and filename rules
 	rules in array to be processed in order
