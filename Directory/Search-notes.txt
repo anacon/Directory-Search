@@ -1,0 +1,198 @@
+
+
+
+module to use rules for search
+	sep dir and filename rules
+	rules in array to be processed in order
+
+		name regex
+		attributes, hidden reeadonly etc
+		datess, create, mod, access
+		file type
+		extension
+
+rule format:
+
+rules => [qw( param oper value pass fail )]
+
+params:
+
+	name
+	extension
+	hidden
+	readonly
+	datec
+	date-create
+	date-access
+	date-modify
+	file-type
+
+operators:
+
+	eq
+	!eq
+	lt
+	gt
+	rx
+	!rx
+
+
+
+
+action if rule passes:
+	cont  # continue to next rule
+	retn  # return file, skip remaining rules
+	skip  # next file, skip remaining rules
+
+same choices for fail
+
+
+
+
+add verbosity options:
+
+	verbosity   => 0 # none, default
+				=> 1 # list directories searched
+					 # list full path files found
+					 # list full path files retreived
+					 # list directories + files found
+					 # whatelse?
+
+
+Add serach by date/time & file tests:
+
+stat
+Returns a 13-element list giving the status info for a file, either the file opened via FILEHANDLE or DIRHANDLE, or named by EXPR. If EXPR is omitted, it stats $_ . Returns a null list if the stat fails. Typically used as follows:
+
+    0 dev device number of filesystem
+    1 ino inode number
+    2 mode file mode (type and permissions)
+    3 nlink number of (hard) links to the file
+    4 uid numeric user ID of file's owner
+    5 gid numeric group ID of file's owner
+    6 rdev the device identifier (special files only)
+    7 size total size of file, in bytes
+    8 atime last access time in seconds since the epoch
+    9 mtime last modify time in seconds since the epoch
+    10 ctime inode change time in seconds since the epoch (*)
+    11 blksize preferred block size for file system I/O
+    12 blocks actual number of blocks allocated
+
+lstat
+Does the same thing as the stat function (including setting the special _ filehandle) but stats a symbolic link instead of the file the symbolic link points to. If symbolic links are unimplemented on your system, a normal stat is done. For much more detailed information, please see the documentation for stat.
+
+If EXPR is omitted, stats $_ .
+
+
+(The epoch was at 00:00 January 1, 1970 GMT.)
+
+(*) Not all fields are supported on all filesystem types. Notably, the ctime field is non-portable. In particular, you cannot expect it to be a "creation time", see Files and Filesystems in perlport for details.
+
+
+
+
+
+file test operators
+
+    -A    Returns the access age of file when the program started.
+
+    -b    Tests if file is a block device.
+
+    -B    Tests if file is a binary file. If file is a file handle,
+	      then the current buffer is examined, instead of the file itself.
+
+    -c    Tests if file is a character device.
+
+    -C    Returns the inode change age of file when the program started.
+
+    -d    Tests if file is a directory.
+
+    -e    Tests if file exists.
+
+    -f    Tests if file is a regular file as opposed to a directory,
+	      symbolic link or other type of file.
+
+    -g    Tests if file has the setgid bit set.
+
+    -k    Tests if file has the sticky bit set.
+
+    -l    Tests if file is a symbolic link. Under DOS,
+	      this operator always will return false.
+
+    -M    Returns the age of file in days when the program started.
+
+    -o    Tests if file is owned by the effective uid.
+	      Under DOS, it always returns true.
+
+    -O    Tests if file is owned by the read uid/gid.
+	      Under DOS, it always returns true.
+
+    -p    Tests if file is a named pipe.
+
+    -r    Tests if file can be read from.
+
+    -R    Tests if file can be read from by the real uid/gid.
+	      Under DOS, it is identical to -r.
+
+    -s    Returns the size of file in bytes.
+	      Therefore, it returns true if file is non-zero.
+
+    -S    Tests if file is a socket.
+
+    -t    Tests if file is opened to a tty.
+
+    -T    Tests if file is a text file. If file is a file handle,
+	      then the current buffer is examined, instead of the file itself.
+
+    -u    Tests if file has the setuid bit set.
+
+    -w    Tests if file can be written to.
+
+    -W    Tests if file can be written to by the real uid/gid.
+	      Under DOS, it is identical to -w.
+
+    -x    Tests if file can be executed.
+
+    -X    Tests if file can be executed by the real uid/gid.
+	      Under DOS, it is identical to -x.
+
+    -z    Tests if file size is zero.
+
+Note If the file is not specified in the file test, the $ variable will be used instead.
+
+The operand used by the file tests can be either a file handle or a file name. The file tests work by internally calling the operating system to determine information about the file in question. The operators will evaluate to true if the test succeeds and false if it does not.
+
+If you need to perform two or more tests on the same file, you use the special underscore (_) file handle. This tells Perl to use the file information for the last system query and saves time. However, the underscore file handle does have some caveats. It does not work with the -t operator. In addition, the lstat() function and -l test will leave the system buffer filled with information about a symbolic link, not a real file.
+
+The -T and -B file tests will examine the first block or so of the file. If more than 10 percent of the bytes are non-characters or if a null byte is encountered, then the file is considered a binary file. Binary files are normally data files, as opposed to text or human-readable files. I
+
+
+my @dispatch = (
+    \&NoMatch,
+    \&Name,
+    \&Host,
+    \&NameHost,
+    \&Mod,
+    \&NameMod,
+    \&HostMod,
+    \&NameHostMod,
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

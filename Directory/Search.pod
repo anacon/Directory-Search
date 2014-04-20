@@ -1,0 +1,86 @@
+=head1 NAME
+
+Directory::Search - an alternative to File::Find
+
+=head1 SYNOPSIS
+ 
+  use Directory::Search;
+
+  # set up parameters of search
+  my $ds = Directory::Search->new(
+    directory    => '/foo/bar',
+    recursive    => 1,
+    hidden_dirs  => 1,
+    hidden_files => 1,
+    backup_files => 1,
+    extension    => 'txt',
+  );
+
+  # default search:
+  # current working directory, not recursive, no hidden files
+  my $ds = Directory::Search->new;
+
+  # iterate over files, returning full path
+  my $fullpath = $ds->next;
+
+  # iterate over files, returning name, directry & path 
+  my ($filename, $directory, $fullpath) = $ds->next;
+
+  # return all remaining files at once 
+  my @files = $ds->all( [ -file  ] );
+  
+  # next version:
+  my @files = $ds->all( [ -file | -path | -dir ] );
+
+Also, add constructor parameter to specify scalar
+return value: arrayref, name, dir or path
+
+
+  # exececute callback for each file
+  my $coderef = sub{
+    my ($filename, $directory, $fullpath) = @_;
+    ...
+  };
+  $ds->exec( $coderef );
+
+  # reset iterator to beginning
+  $ds->reset;
+
+=head1 DESCRIPTION
+
+Search directories for files. Iterator based, object oriented. Directories are searched one at a time as needed, so the entire directory tree is not held in memory. Separate filtering for files and directories. Multiple methods of returning files found.
+
+=head1 METHODS
+
+=head2 new
+
+  my $s = Directory::Search->new(
+    option => value,
+    option => value,
+    ...
+  );
+
+=over4
+
+
+
+
+Adds C<@base_packages> to C<$package>'s ISA list and imports autoimported subs from C<@base_packages>.
+
+  use Stuff::Base @args;
+
+is equvalent to
+
+  BEGIN {
+    Stuff::Base::extend( __PACKAGE__, @args );
+  }
+
+=head2 C<make_sub>
+
+  Stuff::Base::make_sub( $package, $name => $value );
+
+Defines a autoexported function or constant in package C<$package> that will be exported into
+child package with C<import_subs> or C<extend> (which calls C<import_subs>).
+
+C<Stuff::Base::make_sub> adds package name (or object) the function was called from to arguments of created function when it's called.
+
