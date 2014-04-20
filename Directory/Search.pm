@@ -1,5 +1,5 @@
 package Directory::Search;
- 
+
 #	04/18/2012 MF
 #	scan & search directories
 #	alternative api to File::Find
